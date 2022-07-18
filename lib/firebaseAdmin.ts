@@ -1,17 +1,17 @@
 import admin from 'firebase-admin';
+import * as serviceAccount  from '../shopmakeitfast-firebase-adminsdk-4p4ha-7a61853c61.json';
+
+
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert({
-      client_email: process.env.FIREBASE_CLIENT_EMAIL,
-      private_key: process.env.FIREBASE_PRIVATE_KEY,
-      project_id: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
-    }),
-    databaseURL: 'https://fast-feedback-demo.firebaseio.com'
+    credential:admin.credential.cert(JSON.parse(JSON.stringify(serviceAccount))),
+ 
   });
 }
 
 const db = admin.firestore();
 const auth = admin.auth();
+const storageAd=admin.storage();
 
-export { db, auth };
+export { db, auth,storageAd};
