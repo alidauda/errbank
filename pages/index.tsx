@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         onClick={(e) => {
           setLoading(true);
           auth?.signin().then(() => {
-            route.push("/dashboard");
+            route.push("admin/dashboard");
             setLoading(false);
           });
         }}

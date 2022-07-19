@@ -6,6 +6,7 @@ import * as serviceAccount  from '../shopmakeitfast-firebase-adminsdk-4p4ha-7a61
 if (!admin.apps.length) {
   admin.initializeApp({
     credential:admin.credential.cert(JSON.parse(JSON.stringify(serviceAccount))),
+    storageBucket:"shopmakeitfast.appspot.com"
  
   });
 }
