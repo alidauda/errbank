@@ -15,7 +15,7 @@ const AddError: NextPage = () => {
     const [error,setError] = useState("")
     const [fixed,fixedError] = useState("")
     const auth= useAuth();
-    const [loading,loadingError] = useState(true)
+    const [loading,loadingError] = useState(false)
     const id = auth?.userId?.uid
 
     async function Caller(errorName: string, id: string, fixed: string) {
@@ -47,7 +47,7 @@ const AddError: NextPage = () => {
       }
   return (
     <Box width="100%">
-      <Box maxW="1200px" m="auto" display="flex">
+      <Box maxW="1200px" m="auto" >
        
           <FormLabel m="3px">ErrorCode</FormLabel>
           <Textarea placeholder="paste your error code" m="3px"  onChange={(e)=>{
@@ -59,10 +59,10 @@ const AddError: NextPage = () => {
              
              fixedError(e.target.value);
           }}/>
-          <Button colorScheme="teal" variant="solid" ml="50%" mt="10px" alignSelf="center" isLoading={loading} onSubmit={(e)=>{
-             console.log("Loading");
+          <Button colorScheme="teal" variant="solid" ml="50%" mt="10px" alignSelf="center" isLoading={loading} onClick={async (_)=>{
+            
             loadingError(true)
-            Caller(error,id!,fixed)
+            await Caller(error,id!,fixed)
             loadingError(false)}
            
            

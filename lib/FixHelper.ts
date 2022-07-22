@@ -42,7 +42,7 @@ export async function Helper(codeFix: string,id:string){
         metadata: { firebaseStorageDownloadTokens: uuidv4() },
       })
       .then((downloadURL) => {
-        fs.unlinkSync(image);
+        
         const result = downloadURL[0];
         return result.getMetadata();
       })
@@ -55,6 +55,6 @@ export async function Helper(codeFix: string,id:string){
         });
         console.log("metadata = ", data["mediaLink"]);
       });
-
+      fs.unlinkSync(image);
    
 }
