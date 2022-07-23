@@ -49,7 +49,7 @@ export async function PuppeteerHelper(code: string,errorName:string,id:string){
       .then((result) => {
         const data = result[0];
 
-        db.collection("errors").doc(id).set({
+        db.collection("errors").doc(id).collection("userErrors").add({
           errorImage: data["mediaLink"],
           "errorName": errorName,
         });
