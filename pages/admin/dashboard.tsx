@@ -2,15 +2,31 @@ import { Box, Divider, Flex, Heading, Link, Text } from "@chakra-ui/react";
 
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useAuth } from "../../lib/firebase";
+import { firestore, useAuth } from "../../lib/firebase";
 import NextLink from "next/link";
 
 import Header from "../../components/Header";
+import { useEffect, useState } from "react";
 
 const DashBoard: NextPage = () => {
   const auth = useAuth();
   const route = useRouter();
+  const[data,setData] = useState([]);
 
+
+      useEffect(() => {
+        const getdata=async ()=>{
+          const post= await firestore.collection('errors').doc(auth?.userId?.uid).collection('userErrors').get() ;
+                   console.log(post)
+                   setData(post.docs.map((doc)=>(doc.data()));
+        }
+        getdata()
+      })
+
+
+ 
+
+ 
   if (!auth?.userId?.uid) {
     return (
       <NextLink href="/" passHref>
@@ -18,6 +34,7 @@ const DashBoard: NextPage = () => {
       </NextLink>
     );
   }
+ 
 
   return (
     <Flex direction="column">
@@ -28,8 +45,12 @@ const DashBoard: NextPage = () => {
           <NextLink href="/admin/errorDetail" passHref>
             <Link >
               <Box p={5} shadow="md" borderWidth="1px" mt={2}>
-                <Heading mb={4}>Error with jsx</Heading>
-                <Text mt={4}>khcjbjxgcdhcvdhxvcdgcx dhcdcdhcg</Text>
+                
+                  <Heading mb={4}></Heading>
+                   <Text mt={4}></Text>
+
+                 
+               
               </Box>
             </Link>
           </NextLink>
@@ -40,3 +61,4 @@ const DashBoard: NextPage = () => {
 };
 
 export default DashBoard;
+

@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import {
   Box,
   Button,
-  FormControl,
+  
   FormLabel,
   Textarea,
 } from "@chakra-ui/react";
@@ -10,6 +10,7 @@ import { useState } from "react";
 
 import { useAuth } from "../../lib/firebase";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const AddError: NextPage = () => {
     const [error,setError] = useState("")
@@ -17,6 +18,7 @@ const AddError: NextPage = () => {
     const auth= useAuth();
     const [loading,loadingError] = useState(false)
     const id = auth?.userId?.uid
+    const route = useRouter();
 
     async function Caller(errorName: string, id: string, fixed: string) {
         await axios
@@ -61,9 +63,11 @@ const AddError: NextPage = () => {
           }}/>
           <Button colorScheme="teal" variant="solid" ml="50%" mt="10px" alignSelf="center" isLoading={loading} onClick={async (_)=>{
             
-            loadingError(true)
-            await Caller(error,id!,fixed)
-            loadingError(false)}
+            loadingError(true);
+            await Caller(error,id!,fixed);
+            loadingError(false);
+            route.push("/admin/dashboard");
+          }
            
            
             }>
