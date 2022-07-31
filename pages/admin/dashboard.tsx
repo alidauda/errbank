@@ -12,17 +12,16 @@ const DashBoard: NextPage = () => {
   const auth = useAuth();
   const route = useRouter();
   const[data,setData] = useState([]);
+ const post= firestore.collection('errors').doc(auth?.userId?.uid).collection('userErrors').get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        setData(doc.id, doc.data())
+        ;
+    });
+});
 
 
-      useEffect(() => {
-        const getdata=async ()=>{
-          const post= await firestore.collection('errors').doc(auth?.userId?.uid).collection('userErrors').get() ;
-                   console.log(post)
-                   setData(post.docs.map((doc)=>(doc.data()));
-        }
-        getdata()
-      })
-
+     
 
  
 
