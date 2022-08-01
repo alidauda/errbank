@@ -18,7 +18,7 @@ if (!firebase.apps.length) {
 export const auths = firebase.auth();
 export const fi = firebase.auth;
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-
+export const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 export const firestore = firebase.firestore();
 export const storage = firebase.storage();
 
