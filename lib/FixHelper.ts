@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 
 
-export async function Helper(codeFix: string,id:string){
+export async function Helper(codeFix: string,id:string,slug:string){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const token = `https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=javascript&width=700&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=${codeFix}`;
@@ -49,7 +49,7 @@ export async function Helper(codeFix: string,id:string){
       .then((result) => {
         const data = result[0];
 
-        db.collection("errors").doc(id).update({
+        db.collection("errors").doc(id).collection("userErrors").doc(slug).update({
           "FixedImage": data["mediaLink"],
           "FixedCode": codeFix,
         });

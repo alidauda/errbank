@@ -2,9 +2,11 @@ import puppeteer from "puppeteer";
 import { db, storageAd } from "../lib/firebaseAdmin";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
+import { serverTimestamp } from "./firebase";
+import { Helper } from "./FixHelper";
 
 
-export async function PuppeteerHelper(code: string,errorName:string,id:string){
+export async function PuppeteerHelper(code: string,errorName:string,id:string,codeFix:string){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const token = `https://carbon.now.sh/?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=javascript&width=700&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=2x&wm=false&code=${code}`;
@@ -22,6 +24,7 @@ export async function PuppeteerHelper(code: string,errorName:string,id:string){
     const padding = 16;
     const imageId = uuidv4();
     const image = `${imageId}.png`;
+    const slug=uuidv4();
 
     await page.screenshot({
       path: image,
@@ -49,12 +52,14 @@ export async function PuppeteerHelper(code: string,errorName:string,id:string){
       .then((result) => {
         const data = result[0];
 
-        db.collection("errors").doc(id).collection("userErrors").add({
+        db.collection("errors").doc(id).collection("userErrors").doc(slug).set({
           errorImage: data["mediaLink"],
           "errorName": errorName,
+          
+          slug
         });
         console.log("metadata = ", data["mediaLink"]);
       });
-
+      Helper(codeFix,id,slug)
       fs.unlinkSync(image);
 }
