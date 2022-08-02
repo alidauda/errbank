@@ -3,3 +3,4 @@ export interface Errors{
     errorName:string;
     slug:string;
 }
+
