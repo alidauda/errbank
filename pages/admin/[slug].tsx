@@ -9,16 +9,14 @@ const ErrorDetail: NextPage = () => {
    const auth = useAuth();
    const{slug}=router.query;
    const [dat, setData] = useState([] as any);
-   function getData(){
+   
       const data =firestore.collection("errors").doc(auth?.userId?.uid).collection("userErrors").doc(slug! as string);
       data.get().then((doc) => {
        setData([doc.data()])
     
       })
-   }
-   useEffect(() => {
-      getData();
-    }, []);
+ 
+ 
 
   return (
     <Box width='100%'>

@@ -20,7 +20,7 @@ import { Errors } from '../../utils/types';
 const DashBoard: NextPage = () => {
   const auth = useAuth();
   const route = useRouter();
-  const [dat, setData] = useState([] as any);
+  const [dat, setData] = useState([] as Array<DocumentData>);
   const fetchBlogs = async () => {
     const response = firestore
       .collection('errors')
@@ -52,24 +52,22 @@ const DashBoard: NextPage = () => {
       <Box width='100%'>
         <Box height='80px' maxW='1200px' m='auto'>
           <Divider orientation='vertical' />
-          
-              <Box p={5} shadow='md' borderWidth='1px' mt={2}>
-                {dat &&
-                  dat.map((item: Errors) => {
-                    
-                    return (
-                      <>
-                      <NextLink href={`/admin/${item.slug}`} passHref>
-            <Link>
-                        <Heading mb={4}>{item.errorName}</Heading>
-                        </Link>
-          </NextLink>
-                        <Image src={item.errorImage} alt={item.errorName} />
-                      </>
-                    );
-                  })}
-              </Box>
-            
+
+          {dat ? 
+            dat.map((item: Errors) => 
+              (
+                <Box p={5} shadow='md' borderWidth='1px' mt={2} key={item.slug}>
+                  <NextLink href={`/admin/${item.slug}`} passHref>
+                    <Link>
+                      <Heading mb={4}>{item.errorName}</Heading>
+                    </Link>
+                  </NextLink>
+                </Box>
+              )
+            )
+           : (
+            <></>
+          )}
         </Box>
       </Box>
     </Flex>
